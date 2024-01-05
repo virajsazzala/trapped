@@ -3,10 +3,10 @@
 
 #include "gfx/animation.hpp"
 #include "entities/player.hpp"
+#include "entities/letter.hpp"
+#include "consts.hpp"
 
-constexpr auto VIEW_HEIGHT = 512.0f;
-
-void ResizeView(const sf::RenderWindow& window, sf::View& view)
+void ResizeView(const sf::RenderWindow &window, sf::View &view)
 {
     float aspectRatio = float(window.getSize().x) / float(window.getSize().y);
     view.setSize(VIEW_HEIGHT * aspectRatio, VIEW_HEIGHT);
@@ -14,14 +14,21 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view)
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1000, 1000), "Trapped", sf::Style::Close | sf::Style::Resize);
+    sf::RenderWindow window(sf::VideoMode(800, 800), "Trapped", sf::Style::Close | sf::Style::Resize);
     sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(VIEW_HEIGHT, VIEW_HEIGHT));
-    
+
+    // move to playerdata file later..
     sf::Texture playerTexture;
     playerTexture.loadFromFile("./res/sprites/main.png");
+    Player player(&playerTexture, sf::Vector2u(3, 1), 0.2f, 100.0f);
 
-    Player player(&playerTexture, sf::Vector2u(3, 1), 0.2f, 100.0f, 100.0f);
-    sf::RectangleShape r(sf::Vector2f(100.0f, 100.0f));
+    // letter
+    std::string content = "You alive again? I thought you'd \nstay dead this time, hm guess you \nare a tough nut to crack..";
+    Letter introLetter(content);
+
+    // just some reference block
+    sf::RectangleShape r(sf::Vector2f(50.0f, 50.0f));
+    Collider c(r);
 
     float deltaTime = 0.0f;
     sf::Clock clock;
@@ -46,7 +53,7 @@ int main()
                 break;
             }
         }
-        
+
         player.update(deltaTime);
 
         view.setCenter(player.getPosition());
@@ -55,6 +62,11 @@ int main()
         window.setView(view);
         player.draw(window);
         window.draw(r);
+
+        sf::Vector2f direction;
+        if (player.getCollider().checkCollision(c, direction, 1.0f))
+            introLetter.draw(window, player.getPosition());
+
         window.display();
     }
     return 0;
