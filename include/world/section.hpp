@@ -16,6 +16,7 @@ public:
     Section(sf::Vector2f adjSectionOrigin, int direction);
 
     sf::Vector2f getSectionOrigin() { return sectionOrigin; }
+    
     void draw(sf::RenderWindow &window, sf::View &view, Player player);
 private:
     float sectionSize;

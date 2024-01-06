@@ -13,7 +13,9 @@ public:
     Letter(std::string content);
 
     Collider getCollider() { return Collider(body); }
+
     void draw(sf::RenderWindow &window, sf::Vector2f pos);
+    
 private:
     std::string content;
     sf::RectangleShape body;

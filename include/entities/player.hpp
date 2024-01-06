@@ -11,12 +11,12 @@ class Player
 public:
 	Player(sf::Texture *texture, sf::Vector2u imageCount, float switchTime, float speed);
 
-	void update(float deltatime);
-	void draw(sf::RenderWindow &window);
-
-	sf::Vector2f getPosition() { return body.getPosition(); }
 	sf::RectangleShape getBody() { return body; }
 	Collider getCollider() { return Collider(body); }
+	sf::Vector2f getPosition() { return body.getPosition(); }
+
+	void update(float deltatime);
+	void draw(sf::RenderWindow &window);
 
 private:
 	float speed;
