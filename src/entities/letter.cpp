@@ -7,7 +7,6 @@ Letter::Letter(std::string content)
 
 void Letter::draw(sf::RenderWindow &window, sf::Vector2f pos)
 {
-    // draw text on screen, but how?
     sf::Font font;
     if (!font.loadFromFile("./res/fonts/smalle.ttf"))
         std::cerr << "FONT COULDN'T BE LOADED!" << "\n";

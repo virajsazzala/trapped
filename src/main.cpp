@@ -2,9 +2,10 @@
 #include <SFML/Graphics.hpp>
 
 #include "gfx/animation.hpp"
+#include "consts.hpp"
 #include "entities/player.hpp"
 #include "entities/letter.hpp"
-#include "consts.hpp"
+#include "world/section.hpp"
 
 void ResizeView(const sf::RenderWindow &window, sf::View &view)
 {
@@ -26,9 +27,22 @@ int main()
     std::string content = "You alive again? I thought you'd \nstay dead this time, hm guess you \nare a tough nut to crack..";
     Letter introLetter(content);
 
-    // just some reference block
-    sf::RectangleShape r(sf::Vector2f(50.0f, 50.0f));
-    Collider c(r);
+    // spawn, center
+    // sf::RectangleShape r(sf::Vector2f(50.0f, 50.0f));
+    // r.setPosition(0.0f, 0.0f);
+
+    sf::Vector2f origin(0.0f, 0.0f);
+    Section o(origin, 0);
+    // right
+    Section ri(origin, 1);
+    // left
+    Section l(origin, 2);
+    // up
+    Section u(origin, 3);
+    // down
+    Section d(origin, 4);
+
+    // Collider c(r);
 
     float deltaTime = 0.0f;
     sf::Clock clock;
@@ -56,16 +70,20 @@ int main()
 
         player.update(deltaTime);
 
-        view.setCenter(player.getPosition());
-
         window.clear();
         window.setView(view);
         player.draw(window);
-        window.draw(r);
+        // window.draw(r);
+        
+        o.draw(window, view, player);
+        ri.draw(window, view, player);
+        l.draw(window, view, player);
+        u.draw(window, view, player);
+        d.draw(window, view, player);
 
-        sf::Vector2f direction;
-        if (player.getCollider().checkCollision(c, direction, 1.0f))
-            introLetter.draw(window, player.getPosition());
+        // sf::Vector2f direction;
+        // if (player.getCollider().checkCollision(c, direction, 1.0f))
+        //     introLetter.draw(window, player.getPosition());
 
         window.display();
     }
